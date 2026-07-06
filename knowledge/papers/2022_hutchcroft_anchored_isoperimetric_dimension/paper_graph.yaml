@@ -1,0 +1,334 @@
+schema_version: 0.1
+
+paper:
+  id: paper.hutchcroft_2022_transience_anchored_isoperimetric_dimension
+  type: Paper
+  title: "Transience and anchored isoperimetric dimension of supercritical percolation clusters"
+  authors:
+    - Tom Hutchcroft
+  year: 2022
+  source:
+    arxiv_id: "2207.05226v1"
+    local_file: "2207.05226v1.pdf"
+    arxiv_category: "math.PR"
+    date: "2022-07-11"
+    pdf_lines_observed:
+      abstract: "1-14"
+      theorem_1_1: "98-127"
+      corollary_1_6: "203-211"
+      proof_overview: "219-227"
+      open_question: "819-831"
+  abstract_summary: >
+    Establishes several equivalent characterisations of the anchored
+    isoperimetric dimension of supercritical Bernoulli percolation clusters
+    on transitive graphs. Combining these characterisations with a theorem of
+    Duminil-Copin, Goswami, Raoufi, Severo, and Yadin yields that if G is a
+    transient transitive graph, then for p sufficiently close to 1, every
+    infinite Bernoulli-p cluster is transient almost surely.
+  problem_context: >
+    The book develops transience through effective conductance, isoperimetry,
+    and percolation on transitive graphs. This paper asks whether the random
+    walk behaviour of a transitive graph survives supercritical percolation,
+    especially whether transience of G implies transience of its infinite
+    clusters.
+  delta_from_book: >
+    Adds a post-book result connecting anchored isoperimetric dimension of
+    supercritical clusters to finite-cluster tail bounds and boundary
+    connection estimates. It gives a perturbative positive answer to the
+    Benjamini-Lyons-Schramm conjecture that transient transitive graphs have
+    transient infinite percolation clusters.
+  main_contributions:
+    - Characterises anchored isoperimetric dimension of supercritical clusters by four equivalent conditions.
+    - Introduces simple sprinkled cluster repulsion inequalities.
+    - Converts finite-cluster tail estimates into anchored isoperimetric inequalities.
+    - Deduces transience of infinite clusters for p sufficiently close to 1 on transient transitive graphs.
+  book_anchors:
+    - section.lp.ch02.s05_transience_recurrence
+    - thm.lp.transience_effective_conductance
+    - section.lp.ch06.isoperimetric_inequalities
+    - section.lp.ch06.anchored_expansion_and_percolation
+    - section.lp.ch07.percolation_on_transitive_graphs
+    - section.lp.ch08.mass_transport_technique_and_percolation
+  extracted_nodes:
+    - def.hutchcroft_2022.anchored_isoperimetric_dimension
+    - thm.hutchcroft_2022.characterisation_anchored_isoperimetric_dimension
+    - thm.hutchcroft_2022.sprinkled_cluster_repulsion
+    - thm.hutchcroft_2022.tail_to_anchored_isoperimetry
+    - cor.hutchcroft_2022.transient_clusters_near_one
+    - technique.hutchcroft_2022.sprinkled_cluster_repulsion
+    - technique.hutchcroft_2022.tail_to_isoperimetry
+    - openq.hutchcroft_2022.positive_density_uniform_isoperimetry
+
+nodes:
+  - id: def.hutchcroft_2022.anchored_isoperimetric_dimension
+    type: Definition
+    name: Anchored isoperimetric dimension
+    source:
+      paper: paper.hutchcroft_2022_transience_anchored_isoperimetric_dimension
+      section: 1
+      pdf_lines_observed: "66-82"
+    statement: >
+      A graph G satisfies an anchored d-dimensional isoperimetric inequality
+      if, for some/every root v, there is c(v) > 0 such that
+      |partial_E W| >= c(v) * (sum_{w in W} deg(w))^((d-1)/d)
+      for every finite connected vertex set W containing v. The anchored
+      isoperimetric dimension is the supremal such d.
+    intuition: >
+      Supercritical percolation clusters contain arbitrarily long bad path-like
+      zones, so uniform isoperimetry is too strong. Anchored isoperimetry asks
+      only about connected sets containing a fixed root, ignoring bad regions
+      that are far away unless they are connected back to the anchor.
+    aliases:
+      - anchored isoperimetry
+      - anchored dimension
+      - anchored expansion profile
+    related_nodes:
+      - section.lp.ch06.isoperimetric_inequalities
+      - section.lp.ch06.anchored_expansion_and_percolation
+      - thm.hutchcroft_2022.characterisation_anchored_isoperimetric_dimension
+
+  - id: thm.hutchcroft_2022.characterisation_anchored_isoperimetric_dimension
+    type: Theorem
+    name: Characterisation of anchored isoperimetric dimension of percolation clusters
+    source:
+      paper: paper.hutchcroft_2022_transience_anchored_isoperimetric_dimension
+      theorem: "Theorem 1.1"
+      section: 1
+      pdf_lines_observed: "98-127"
+    statement: >
+      For Bernoulli bond percolation on a connected locally finite transitive
+      graph, several conditions are equivalent: stretched-exponential bounds
+      on the probability that a finite set is cut off from infinity, lower
+      bounds on boundary vertices connecting to infinity off the set,
+      stretched-exponential finite-cluster tail bounds, and infinite clusters
+      having anchored isoperimetric dimension at least d almost surely.
+    assumptions:
+      - G is connected, locally finite, and transitive for the full equivalence.
+      - pc <= p0 < 1 and d in (1, infinity].
+      - Some implications hold on arbitrary bounded-degree graphs without transitivity.
+    conclusion: >
+      Anchored isoperimetric dimension of supercritical clusters can be studied
+      through finite-cluster tails and boundary-to-infinity connection
+      estimates, not only by direct geometric analysis of the infinite cluster.
+    proof_plan:
+      - Prove equivalence between set disconnection tails and boundary connection lower bounds using increasing-event inequalities and Russo-type derivatives.
+      - Use sprinkled cluster repulsion to convert boundary connection lower bounds into finite-cluster tail bounds.
+      - Use a Pete-style counting argument to convert finite-cluster tails into anchored isoperimetric inequalities.
+      - Use transitivity to recover boundary connection lower bounds from anchored isoperimetry of infinite clusters.
+    used_techniques:
+      - technique.hutchcroft_2022.sprinkled_cluster_repulsion
+      - technique.hutchcroft_2022.tail_to_isoperimetry
+      - technique.lp.random_walk_electrical_dictionary
+    related_nodes:
+      - def.hutchcroft_2022.anchored_isoperimetric_dimension
+      - thm.hutchcroft_2022.sprinkled_cluster_repulsion
+      - thm.hutchcroft_2022.tail_to_anchored_isoperimetry
+      - cor.hutchcroft_2022.transient_clusters_near_one
+
+  - id: thm.hutchcroft_2022.sprinkled_cluster_repulsion
+    type: Theorem
+    name: Sprinkled cluster repulsion
+    source:
+      paper: paper.hutchcroft_2022_transience_anchored_isoperimetric_dimension
+      proposition: "Proposition 2.1"
+      section: 2
+      pdf_lines_observed: "228-266"
+    statement: >
+      In the monotone coupling of Bernoulli percolation at p1 < p2, the
+      probability that the p2-cluster of v is finite and touches the union of
+      infinite p1-clusters in at least n edges is at most
+      ((1 - p2) / (1 - p1))^n.
+    assumptions:
+      - G is connected and locally finite.
+      - 0 < p1 < p2 < 1.
+      - Gp1 and Gp2 are coupled monotonically.
+    conclusion: >
+      It is exponentially unlikely for a finite p2-cluster to have many
+      contacts with the older infinite p1-clusters.
+    proof_plan:
+      - Reveal the infinite p1-clusters.
+      - Explore the p2-cluster inside their complement.
+      - If the p2-cluster is finite and touches the p1-infinite set in many places, all those contact edges must remain closed at level p2.
+      - Under the monotone coupling, each such edge contributes a factor (1-p2)/(1-p1).
+    used_techniques:
+      - technique.hutchcroft_2022.sprinkled_cluster_repulsion
+    related_nodes:
+      - thm.hutchcroft_2022.characterisation_anchored_isoperimetric_dimension
+      - technique.hutchcroft_2022.sprinkled_cluster_repulsion
+
+  - id: thm.hutchcroft_2022.tail_to_anchored_isoperimetry
+    type: Theorem
+    name: Isoperimetry from tail estimates
+    source:
+      paper: paper.hutchcroft_2022_transience_anchored_isoperimetric_dimension
+      proposition: "Proposition 3.1"
+      section: 3
+      pdf_lines_observed: "507-532"
+    statement: >
+      If finite cluster edge-size probabilities satisfy
+      P_p(|E(K_v)| = n) <= exp[-c phi(n)] for an increasing function phi with
+      phi(t) <= t, then the infinite cluster satisfies a corresponding
+      anchored isoperimetric inequality, up to a logarithmic correction.
+    assumptions:
+      - G is a bounded-degree graph.
+      - pc(G) <= p < 1.
+      - phi is increasing and phi(t) <= t.
+      - Finite cluster edge-size probabilities have exp[-c phi(n)] tails.
+    conclusion: >
+      Good finite-cluster tail estimates imply anchored isoperimetry of the
+      infinite cluster.
+    proof_plan:
+      - Union bound over connected subgraphs containing the root.
+      - Compare the probability that a fixed connected subgraph sits inside the cluster with small open boundary to the probability that it is exactly the finite cluster.
+      - Use combinatorial bounds on choices of small boundary sets.
+      - Sum the resulting probabilities and apply Borel-Cantelli.
+    used_techniques:
+      - technique.hutchcroft_2022.tail_to_isoperimetry
+    related_nodes:
+      - thm.hutchcroft_2022.characterisation_anchored_isoperimetric_dimension
+      - def.hutchcroft_2022.anchored_isoperimetric_dimension
+
+  - id: cor.hutchcroft_2022.transient_clusters_near_one
+    type: Corollary
+    name: Infinite clusters are transient for p close to 1
+    source:
+      paper: paper.hutchcroft_2022_transience_anchored_isoperimetric_dimension
+      corollary: "Corollary 1.6 and following paragraph"
+      section: 1
+      pdf_lines_observed: "203-218"
+    statement: >
+      If G is a transient transitive graph, then there exists p0 < 1 such that
+      for every p0 < p < 1, every infinite cluster of Bernoulli-p percolation
+      on G is transient almost surely.
+    assumptions:
+      - G is connected, locally finite, transitive, and transient.
+      - p is sufficiently close to 1.
+      - Uses Corollary 1.4 for polynomial growth cases and Theorem 1.5/DGRSY for high-dimensional isoperimetric cases.
+    conclusion: >
+      Transience of the ambient transitive graph is stable under sufficiently
+      small Bernoulli edge deletion.
+    derived_from:
+      - thm.hutchcroft_2022.characterisation_anchored_isoperimetric_dimension
+      - theorem.dgrsy_2020.capacity_tail_bound
+      - theorem.thomassen_1992.anchored_dimension_gt_2_implies_transience
+    related_nodes:
+      - thm.lp.transience_effective_conductance
+      - section.lp.ch06.anchored_expansion_and_percolation
+      - section.lp.ch07.percolation_on_transitive_graphs
+
+  - id: technique.hutchcroft_2022.sprinkled_cluster_repulsion
+    type: Technique
+    name: Sprinkled cluster repulsion
+    source:
+      paper: paper.hutchcroft_2022_transience_anchored_isoperimetric_dimension
+      section: 2
+      pdf_lines_observed: "219-266"
+    use_when:
+      - You need to bound the probability that a finite supercritical cluster has many contacts with infinite clusters.
+      - You can compare two percolation parameters p1 < p2 in the monotone coupling.
+      - A direct renormalization argument is unavailable on general transitive graphs.
+    core_move: >
+      Work at two percolation levels. Use p1 to create infinite clusters and
+      p2 to explore a finite cluster in their complement. Many contacts force
+      many edges to stay closed during sprinkling, producing an exponential
+      penalty.
+    intuition: >
+      Sprinkling wants to connect a finite cluster to the existing infinite
+      structure. If it still remains finite while touching that structure in
+      many places, many independent opportunities to connect must have failed.
+    formal_pattern:
+      input: "Monotone coupling G_{p1} subset G_{p2}, p1 < p2"
+      event: "|K_{v,p2}| < infinity and tau(K_{v,p2}, K_{infty,p1}) >= n"
+      bound: "Probability <= ((1-p2)/(1-p1))^n"
+      use_in_pipeline: "boundary connectivity lower bound -> cluster tail estimate"
+    common_failure_modes:
+      - Forgetting that the argument uses two percolation levels.
+      - Treating K_{infty,p1} as independent of G_{p2}; the conditional coupling structure matters.
+      - Applying it directly at p1 = p2, where the sprinkling penalty disappears.
+    related_nodes:
+      - thm.hutchcroft_2022.sprinkled_cluster_repulsion
+      - thm.hutchcroft_2022.characterisation_anchored_isoperimetric_dimension
+
+  - id: technique.hutchcroft_2022.tail_to_isoperimetry
+    type: Technique
+    name: Convert finite-cluster tails to anchored isoperimetry
+    source:
+      paper: paper.hutchcroft_2022_transience_anchored_isoperimetric_dimension
+      section: 3
+      pdf_lines_observed: "507-641"
+    use_when:
+      - You have stretched-exponential upper bounds on finite cluster size.
+      - You want anchored isoperimetric inequalities for infinite clusters.
+      - You can enumerate connected subgraphs attached to a root and control small open boundaries.
+    core_move: >
+      Bad anchored isoperimetry would produce a large connected set around the
+      root with unusually small open boundary. Compare the probability of this
+      event to the probability that the same set is a finite cluster, then use
+      the finite-cluster tail bound and a union bound.
+    intuition: >
+      A large connected set with tiny open boundary is almost a finite cluster.
+      If finite clusters of that size are very unlikely, then such bottlenecks
+      cannot occur infinitely often around the anchor.
+    formal_pattern:
+      input: "P_p(|E(K_v)| = n) <= exp[-c phi(n)]"
+      output: "anchored psi-isoperimetric inequality with psi roughly phi/log"
+      proof_tools:
+        - union bound over connected subgraphs
+        - boundary choice counting
+        - Borel-Cantelli
+    common_failure_modes:
+      - Losing the logarithmic correction in the conversion.
+      - Confusing uniform isoperimetry with anchored isoperimetry.
+      - Applying the argument without bounded degree or cluster-tail input.
+    related_nodes:
+      - thm.hutchcroft_2022.tail_to_anchored_isoperimetry
+      - def.hutchcroft_2022.anchored_isoperimetric_dimension
+
+  - id: openq.hutchcroft_2022.positive_density_uniform_isoperimetry
+    type: OpenQuestion
+    source:
+      paper: paper.hutchcroft_2022_transience_anchored_isoperimetric_dimension
+      section: 4
+      pdf_lines_observed: "819-831"
+    question: >
+      Does the infinite cluster of supercritical percolation on Z^d admit a
+      positive-density subgraph with uniform isoperimetric dimension d? Does an
+      analogous statement hold for other transitive graphs?
+    context: >
+      Anchored isoperimetry is weaker than uniform isoperimetry. The paper asks
+      whether one can recover a large positive-density substructure with the
+      stronger uniform dimension, while noting obstacles from quasi-isometry
+      and unimodular examples.
+    related_nodes:
+      - def.hutchcroft_2022.anchored_isoperimetric_dimension
+      - thm.hutchcroft_2022.characterisation_anchored_isoperimetric_dimension
+      - section.lp.ch06.isoperimetric_inequalities
+
+edges:
+  - from: paper.hutchcroft_2022_transience_anchored_isoperimetric_dimension
+    relation: connects_to
+    to: thm.lp.transience_effective_conductance
+  - from: paper.hutchcroft_2022_transience_anchored_isoperimetric_dimension
+    relation: connects_to
+    to: section.lp.ch06.anchored_expansion_and_percolation
+  - from: paper.hutchcroft_2022_transience_anchored_isoperimetric_dimension
+    relation: connects_to
+    to: section.lp.ch07.percolation_on_transitive_graphs
+  - from: thm.hutchcroft_2022.characterisation_anchored_isoperimetric_dimension
+    relation: introduces
+    to: technique.hutchcroft_2022.sprinkled_cluster_repulsion
+  - from: thm.hutchcroft_2022.characterisation_anchored_isoperimetric_dimension
+    relation: uses_technique
+    to: technique.hutchcroft_2022.tail_to_isoperimetry
+  - from: cor.hutchcroft_2022.transient_clusters_near_one
+    relation: depends_on
+    to: thm.hutchcroft_2022.characterisation_anchored_isoperimetric_dimension
+  - from: cor.hutchcroft_2022.transient_clusters_near_one
+    relation: refines
+    to: thm.lp.transience_effective_conductance
+  - from: cor.hutchcroft_2022.transient_clusters_near_one
+    relation: answers_question
+    to: conjecture.benjamini_lyons_schramm_1999.transient_clusters
+  - from: openq.hutchcroft_2022.positive_density_uniform_isoperimetry
+    relation: arises_from
+    to: thm.hutchcroft_2022.characterisation_anchored_isoperimetric_dimension

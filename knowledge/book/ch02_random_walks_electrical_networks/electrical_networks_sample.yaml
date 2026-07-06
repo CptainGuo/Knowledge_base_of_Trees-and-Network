@@ -1,0 +1,340 @@
+schema_version: 0.1
+source_book:
+  title: Probability on Trees and Networks
+  authors:
+    - Russell Lyons
+    - Yuval Peres
+  local_file: book_pb.pdf
+
+nodes:
+  - id: section.lp.ch02.s04_energy
+    type: ChapterSection
+    title: "Chapter 2.4 Energy"
+    source:
+      chapter: 2
+      section: 4
+      pages_in_book: "31-36"
+      pdf_lines_observed: "2300-2512"
+    summary: >
+      Introduces flows, flow strength, energy, Thomson's principle,
+      star/cycle orthogonal decomposition, transfer currents, and Rayleigh
+      monotonicity. This section turns electrical network intuition into
+      variational tools for estimating effective resistance and conductance.
+    learning_goals:
+      - Understand energy of a flow as the quadratic cost sum r(e) theta(e)^2.
+      - Use Thomson's principle to compare arbitrary unit flows with current.
+      - Use Rayleigh monotonicity to reason about adding, deleting, or contracting edges.
+    child_nodes:
+      - def.lp.energy_of_flow
+      - thm.lp.thomson_principle
+      - thm.lp.rayleigh_monotonicity
+      - technique.lp.variational_resistance_bounds
+
+  - id: section.lp.ch02.s05_transience_recurrence
+    type: ChapterSection
+    title: "Chapter 2.5 Transience and Recurrence"
+    source:
+      chapter: 2
+      section: 5
+      pages_in_book: "36-43"
+      pdf_lines_observed: "2513-2560"
+    summary: >
+      Connects random-walk transience and recurrence to effective conductance
+      and resistance. The Nash-Williams inequality gives a robust recurrence
+      criterion through disjoint cutsets.
+    learning_goals:
+      - Translate transience into positive effective conductance to infinity.
+      - Prove recurrence by showing effective resistance to infinity diverges.
+      - Construct disjoint cutsets and apply Cauchy-Schwarz to lower-bound energy.
+    child_nodes:
+      - thm.lp.transience_effective_conductance
+      - thm.lp.nash_williams_inequality
+      - technique.lp.cutset_resistance_lower_bound
+
+  - id: def.lp.effective_conductance
+    type: Definition
+    name: Effective conductance
+    source:
+      chapter: 2
+      section: 2
+      pages_in_book: "24-25"
+      pdf_lines_observed: "1866-1916"
+    statement: >
+      For a finite network, with A = {a} and absorbing set Z, define
+      C(a <-> Z) = pi(a) P_a[tau_Z < tau_a^+]. The effective resistance
+      R(a <-> Z) is its reciprocal. For an infinite network, define
+      C(a <-> infinity) as the exhaustion limit of C(a <-> z_n) in the wired
+      finite networks.
+    intuition: >
+      The whole network between a and Z behaves like one equivalent conductor.
+      Random-walk escape probability measures how easily current can leave a
+      without returning.
+    aliases:
+      - Ceff
+      - effective conductance to infinity
+      - network conductance
+    related_nodes:
+      - thm.lp.transience_effective_conductance
+      - thm.lp.rayleigh_monotonicity
+      - def.lp.energy_of_flow
+
+  - id: def.lp.energy_of_flow
+    type: Definition
+    name: Energy of a flow
+    source:
+      chapter: 2
+      section: 4
+      pages_in_book: "33"
+      pdf_lines_observed: "2344-2358"
+    statement: >
+      For an antisymmetric edge function theta, its energy is
+      E(theta) = sum_e r(e) theta(e)^2 over one orientation of each edge.
+      If i is a unit current flow from A to Z, then E(i) = R(A <-> Z).
+    intuition: >
+      Energy is the price paid to push one unit of flow through resistors.
+      Low-energy routes correspond to high conductance, while every bottleneck
+      forces energy to accumulate.
+    aliases:
+      - Dirichlet energy of flow
+      - flow energy
+      - resistance cost
+    related_nodes:
+      - thm.lp.thomson_principle
+      - technique.lp.variational_resistance_bounds
+      - thm.lp.nash_williams_inequality
+
+  - id: thm.lp.transience_effective_conductance
+    type: Theorem
+    name: Transience and effective conductance
+    source:
+      chapter: 2
+      section: 2
+      pages_in_book: "27"
+      pdf_lines_observed: "1994-2019"
+    statement: >
+      Random walk on an infinite connected network is transient if and only if
+      the effective conductance from any vertex to infinity is positive.
+    assumptions:
+      - The network is infinite and connected.
+      - Vertex conductance sums are finite, so the network random walk is well defined.
+    conclusion: >
+      Transience is equivalent to C(a <-> infinity) > 0, equivalently
+      R(a <-> infinity) < infinity.
+    proof_plan:
+      - Exhaust the infinite network by finite induced subnetworks G_n.
+      - Wire the outside of G_n to a boundary vertex z_n.
+      - Identify P_a[tau_{Z_n} < tau_a^+] with C(a <-> z_n) / pi(a).
+      - Take the monotone limit; the limiting event is escape from a forever.
+    used_techniques:
+      - technique.lp.exhaustion_wiring
+      - technique.lp.random_walk_electrical_dictionary
+    related_nodes:
+      - def.lp.effective_conductance
+      - thm.lp.rayleigh_monotonicity
+      - thm.lp.nash_williams_inequality
+
+  - id: thm.lp.thomson_principle
+    type: Theorem
+    name: Thomson's principle
+    source:
+      chapter: 2
+      section: 4
+      pages_in_book: "35"
+      pdf_lines_observed: "2429-2435"
+    statement: >
+      In a finite network, among all flows with the same sources and sinks,
+      the current flow uniquely minimizes energy.
+    assumptions:
+      - The network is finite.
+      - A and Z are disjoint vertex sets.
+      - theta is a flow from A to Z and i is the current flow with d* i = d* theta.
+    conclusion: >
+      E(theta) >= E(i), with equality only when theta = i.
+    proof_plan:
+      - Use the orthogonal decomposition of edge functions into star space and cycle space.
+      - Show theta - i is sourceless, hence lies in the cycle space.
+      - Apply the Pythagorean identity in the resistance inner product.
+    used_techniques:
+      - technique.lp.variational_resistance_bounds
+      - technique.lp.star_cycle_orthogonal_decomposition
+    related_nodes:
+      - def.lp.energy_of_flow
+      - thm.lp.rayleigh_monotonicity
+      - thm.lp.nash_williams_inequality
+
+  - id: thm.lp.rayleigh_monotonicity
+    type: Theorem
+    name: Rayleigh's monotonicity principle
+    source:
+      chapter: 2
+      section: 4
+      pages_in_book: "35-36"
+      pdf_lines_observed: "2468-2495"
+    statement: >
+      Increasing edge conductances cannot decrease effective conductance.
+      Equivalently, deleting edges cannot increase effective conductance, and
+      contracting an edge increases effective conductance.
+    assumptions:
+      - The graph is connected.
+      - Conductance assignments satisfy c(e) <= c'(e) for every edge e.
+    conclusion: >
+      C_c(A <-> Z) <= C_{c'}(A <-> Z) in finite networks, and similarly for
+      C(a <-> infinity) in infinite networks. In particular, transience is
+      preserved when conductances are increased.
+    proof_plan:
+      - Express effective conductance as reciprocal of minimum unit-flow energy.
+      - Compare the energy of the old current under the new conductances.
+      - Apply Thomson's principle to the new current.
+      - Pass to exhaustion limits for the infinite case.
+    used_techniques:
+      - technique.lp.variational_resistance_bounds
+    related_nodes:
+      - thm.lp.thomson_principle
+      - def.lp.effective_conductance
+      - thm.lp.transience_effective_conductance
+
+  - id: thm.lp.nash_williams_inequality
+    type: Theorem
+    name: Nash-Williams inequality
+    source:
+      chapter: 2
+      section: 5
+      pages_in_book: "37"
+      pdf_lines_observed: "2523-2560"
+    statement: >
+      If distinct vertices a and z are separated by pairwise disjoint cutsets
+      Pi_1, ..., Pi_n, then
+      R(a <-> z) >= sum_k (sum_{e in Pi_k} c(e))^{-1}.
+    assumptions:
+      - The network is finite.
+      - The cutsets Pi_k are pairwise disjoint.
+      - Every path from a to z crosses each cutset.
+    conclusion: >
+      Each cutset contributes an additive lower bound to effective resistance.
+      Infinite many sufficiently thin disjoint cutsets force recurrence.
+    proof_plan:
+      - Let i be the unit current flow from a to z.
+      - A unit flow must send total absolute current at least 1 across each separating cutset.
+      - Apply Cauchy-Schwarz on each cutset:
+        sum_{e in Pi} i(e)^2 r(e) >= 1 / sum_{e in Pi} c(e).
+      - Sum over disjoint cutsets so the energy contributions do not overlap.
+    used_techniques:
+      - technique.lp.cutset_resistance_lower_bound
+      - technique.lp.variational_resistance_bounds
+    related_nodes:
+      - thm.lp.transience_effective_conductance
+      - def.lp.energy_of_flow
+      - thm.lp.thomson_principle
+
+  - id: technique.lp.variational_resistance_bounds
+    type: Technique
+    name: Variational bounds via flows
+    source:
+      chapter: 2
+      section: 4
+      pages_in_book: "33-36"
+    use_when:
+      - You need to estimate effective resistance or conductance.
+      - A direct random-walk computation is hard.
+      - You can construct a candidate flow or voltage function.
+    core_move: >
+      Convert a probability question into an energy minimization question.
+      Upper-bound resistance by constructing a low-energy unit flow; lower-bound
+      resistance by proving every unit flow has large energy.
+    intuition: >
+      Current automatically chooses the cheapest way to cross the network.
+      Any explicit flow gives a certificate that the true cost is no larger;
+      any bottleneck argument gives a certificate that the true cost is no smaller.
+    formal_pattern:
+      input: "Network G, source A, sink Z"
+      upper_bound_resistance: "Construct unit flow theta and compute E(theta)."
+      lower_bound_resistance: "Show all unit flows must spend energy on bottlenecks."
+      bridge_to_probability: "Use C = 1/R and P[a -> Z] = C(a <-> Z) / pi(a)."
+    common_failure_modes:
+      - Forgetting that a lower bound on resistance needs all flows, not one chosen flow.
+      - Using non-disjoint cutsets and double-counting the same edge energy.
+      - Confusing edge conductance c(e) with effective conductance Ceff.
+    related_nodes:
+      - def.lp.energy_of_flow
+      - thm.lp.thomson_principle
+      - thm.lp.rayleigh_monotonicity
+      - thm.lp.nash_williams_inequality
+
+  - id: technique.lp.cutset_resistance_lower_bound
+    type: Technique
+    name: Cutset lower bound for resistance
+    source:
+      chapter: 2
+      section: 5
+      pages_in_book: "36-37"
+    use_when:
+      - You want to prove recurrence.
+      - The graph has natural layers or annuli around a root.
+      - Every path to infinity must cross a sequence of bottlenecks.
+    core_move: >
+      Find pairwise disjoint cutsets separating the root from infinity and sum
+      the reciprocals of their total conductances.
+    intuition: >
+      A random walk can escape only by crossing every barrier. If infinitely many
+      barriers are thin enough, the total resistance to infinity diverges.
+    formal_pattern:
+      input: "Root a and disjoint cutsets Pi_k separating a from infinity"
+      bound: "R(a <-> infinity) >= sum_k 1 / C(Pi_k)"
+      recurrence_test: "If the sum diverges, then C(a <-> infinity) = 0."
+    common_failure_modes:
+      - Cutsets are not actually separating all paths.
+      - Cutsets overlap, invalidating additive energy summation.
+      - The criterion proves recurrence, not transience.
+    related_nodes:
+      - thm.lp.nash_williams_inequality
+      - thm.lp.transience_effective_conductance
+      - def.lp.energy_of_flow
+
+  - id: intuition.lp.electrical_dictionary
+    type: Intuition
+    claim: Random walk escape is electrical conductance.
+    source:
+      chapter: 2
+      sections:
+        - 2
+        - 4
+        - 5
+    explanation: >
+      Starting at a vertex a, the chance of reaching a distant boundary before
+      returning to a equals effective conductance divided by the local total
+      conductance pi(a). Thus recurrence means that infinity is electrically
+      insulated from a: the effective conductance to infinity is zero.
+    useful_for:
+      - Translating recurrence/transience questions into resistance estimates.
+      - Explaining why edge addition can preserve transience.
+      - Recognizing when cutsets or flows are the right proof objects.
+    related_nodes:
+      - def.lp.effective_conductance
+      - thm.lp.transience_effective_conductance
+      - technique.lp.cutset_resistance_lower_bound
+
+edges:
+  - from: thm.lp.transience_effective_conductance
+    relation: depends_on
+    to: def.lp.effective_conductance
+  - from: thm.lp.transience_effective_conductance
+    relation: has_intuition
+    to: intuition.lp.electrical_dictionary
+  - from: thm.lp.rayleigh_monotonicity
+    relation: depends_on
+    to: thm.lp.thomson_principle
+  - from: thm.lp.rayleigh_monotonicity
+    relation: uses_technique
+    to: technique.lp.variational_resistance_bounds
+  - from: thm.lp.nash_williams_inequality
+    relation: uses_technique
+    to: technique.lp.cutset_resistance_lower_bound
+  - from: thm.lp.nash_williams_inequality
+    relation: depends_on
+    to: def.lp.energy_of_flow
+  - from: technique.lp.cutset_resistance_lower_bound
+    relation: depends_on
+    to: thm.lp.transience_effective_conductance
+  - from: technique.lp.cutset_resistance_lower_bound
+    relation: special_case_of
+    to: technique.lp.variational_resistance_bounds

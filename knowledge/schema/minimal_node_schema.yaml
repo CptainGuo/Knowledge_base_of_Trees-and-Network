@@ -1,0 +1,165 @@
+# Minimal schema for a math-agent-oriented knowledge base.
+#
+# Design goal:
+# - Keep the book's chapter structure for navigation.
+# - Promote reusable proof ingredients, intuitions, and tricks to first-class nodes.
+# - Make every node cite its source and expose retrieval metadata.
+
+schema_version: 0.1
+
+node_types:
+  ChapterSection:
+    required_fields:
+      - id
+      - title
+      - source
+      - summary
+      - learning_goals
+      - child_nodes
+    retrieval_role: navigation
+
+  Definition:
+    required_fields:
+      - id
+      - name
+      - source
+      - statement
+      - intuition
+      - aliases
+      - related_nodes
+    retrieval_role: concept_grounding
+
+  Theorem:
+    required_fields:
+      - id
+      - name
+      - source
+      - statement
+      - assumptions
+      - conclusion
+      - proof_plan
+      - used_techniques
+      - related_nodes
+    retrieval_role: premise_selection
+
+  Technique:
+    required_fields:
+      - id
+      - name
+      - source
+      - use_when
+      - core_move
+      - intuition
+      - formal_pattern
+      - common_failure_modes
+      - related_nodes
+    retrieval_role: proof_strategy
+
+  Intuition:
+    required_fields:
+      - id
+      - claim
+      - source
+      - explanation
+      - useful_for
+      - related_nodes
+    retrieval_role: informal_reasoning
+
+  Exercise:
+    required_fields:
+      - id
+      - source
+      - prompt
+      - why_it_matters
+      - depends_on
+      - later_used_by
+    retrieval_role: dependency_training
+
+  Paper:
+    required_fields:
+      - id
+      - title
+      - authors
+      - year
+      - source
+      - abstract_summary
+      - main_contributions
+      - book_anchors
+      - extracted_nodes
+    retrieval_role: literature_context
+
+  Corollary:
+    required_fields:
+      - id
+      - name
+      - source
+      - statement
+      - assumptions
+      - conclusion
+      - derived_from
+      - related_nodes
+    retrieval_role: premise_selection
+
+  OpenQuestion:
+    required_fields:
+      - id
+      - source
+      - question
+      - context
+      - related_nodes
+    retrieval_role: research_frontier
+
+edge_types:
+  - appears_in
+  - depends_on
+  - uses_technique
+  - has_intuition
+  - has_proof_plan
+  - generalizes
+  - special_case_of
+  - equivalent_to
+  - analogy_with
+  - later_used_by
+  - formalizes_as
+  - cites
+  - answers_question
+  - refines
+  - introduces
+  - connects_to
+  - arises_from
+
+retrieval_hints:
+  by_task:
+    explain_concept:
+      prefer:
+        - Definition
+        - Intuition
+        - ChapterSection
+    find_premises:
+      prefer:
+        - Theorem
+        - Definition
+        - Exercise
+    find_proof_strategy:
+      prefer:
+        - Technique
+        - Theorem
+        - ProofPlan
+    connect_paper:
+      prefer:
+        - Paper
+        - Theorem
+        - Corollary
+        - Technique
+        - OpenQuestion
+  expansion_policy:
+    after_retrieving_theorem:
+      include_edges:
+        - depends_on
+        - uses_technique
+        - has_intuition
+    after_retrieving_technique:
+      include_edges:
+        - used_by
+        - analogy_with
+        - appears_in
