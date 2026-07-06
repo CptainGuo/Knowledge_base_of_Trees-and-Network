@@ -26,26 +26,7 @@ Example paper:
 
 - `2207.05226v1.pdf`: Tom Hutchcroft, *Transience and anchored isoperimetric dimension of supercritical percolation clusters*.
 
-## Repository Structure
 
-```text
-.
-├── README.md
-├── book_pb.pdf
-├── 2207.05226v1.pdf
-└── knowledge/
-    ├── README.md
-    ├── schema/
-    │   └── minimal_node_schema.yaml
-    ├── book/
-    │   └── ch02_random_walks_electrical_networks/
-    │       └── electrical_networks_sample.yaml
-    ├── papers/
-    │   └── 2022_hutchcroft_anchored_isoperimetric_dimension/
-    │       └── paper_graph.yaml
-    └── retrieval_packs/
-        └── ch02_recurrence_via_cutsets.md
-```
 
 ## Knowledge Model
 
@@ -167,16 +148,6 @@ For a new paper:
 5. Identify the new proof techniques.
 6. Link the paper back to existing book nodes with `connects_to`, `refines`, `generalizes`, or `answers_question`.
 
-## Near-Term Roadmap
-
-Useful next targets:
-
-- Expand Chapter 2 around random walks, electrical networks, recurrence, and transience.
-- Add Chapter 5 nodes for second-moment methods, branching processes, and percolation.
-- Add Chapter 6 nodes for isoperimetric inequalities and anchored expansion.
-- Add Chapter 8 nodes for mass transport and invariant percolation.
-- Add Chapter 10 nodes for uniform spanning forests.
-- Build scripts to validate schema consistency and eventually generate retrieval packs automatically.
 
 ## Status
 
